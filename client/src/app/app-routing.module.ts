@@ -1,7 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-const routes: Routes = [];
+import { AssociatelistingComponent } from './components/associatelisting/associatelisting.component';
+
+const routes: Routes = [
+  {path: '', component: AssociatelistingComponent}
+];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
