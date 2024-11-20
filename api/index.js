@@ -20,13 +20,13 @@ app.use(express.json())
 app.use(cors())
 
 app.get('/getAllAssociates', async (req, res) => {
-    const associates = await Associate.find({})
+    const associates = await Associate.find({}).select('-__v -updatedAt -createdAt')
     res.status(200).json({result: true, data: associates})
 })
 
 app.get('/associatesById/:id', async (req, res) => {
     const id = req.params.id
-    const associate = await Associate.findById(id)
+    const associate = await Associate.findById(id).select('-__v -updatedAt -createdAt')
     if(!associate) {
         return res.status(404).json({result: false, message: "Associate not found"})
     }
@@ -64,13 +64,13 @@ app.put('/updateAssociate/:id', async (req, res) => {
 })
 
 app.delete('/deleteAssociate/:id', async (req, res) => {
-    const id = req.params.id
-    const associate = await Associate.findByIdAndDelete(id)
+    const id1 = req.params.id
+    const associate = await Associate.findByIdAndDelete(id1)
     if(!associate) {
         return res.status(404).json({result: false, message: "Associate not found"})
     }
     try {
-        res.status(200).json({result: true, message: "Associate deleted successfully"})
+        res.status(200).json({result: true, message: "Associate deleted successfully", id: id1})
     } catch(error) {
         res.status(500).json({result: false, message: error.message})
     }
